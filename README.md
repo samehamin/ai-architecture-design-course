@@ -9,8 +9,7 @@ A hands-on course on designing AI systems, aimed at AI/ML and software engineers
 - **Practice:** enterprise case studies and a full Software Design Document (SDD)
 
 ## Repo Contents
-- `artifacts/AD Course - SDD.pdf`: sample Software Design Document used in the course
-- `artifacts/AD Course.jpg`: course overview visual
+- `artifacts`: Includes design documents, artifacts, UMLs and more...
 
 ## Audience
 Engineers and tech leads who want to move from AI prototypes to production-grade AI architectures.
