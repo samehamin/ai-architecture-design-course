@@ -1,0 +1,285 @@
+<mxfile host="app.diagrams.net"><diagram name="Training factory - Options" id="tf-cmp">
+    <mxGraphModel dx="1148" dy="553" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="980" pageHeight="440" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tf-cmp-title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=16;" value="&lt;b&gt;Training factory — Options compared&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="900" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-cmp-sub" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;" value="Where do the AI/ML Layer models train? Both options run on the Training cluster (GKE); Airflow triggers, MLflow stores each model version." vertex="1">
+          <mxGeometry height="25" width="900" x="40" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-cmp-table" parent="1" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;overflow=fill;fillStyle=auto;" value="&lt;table style=&quot;border-collapse:collapse;width:100%;font-size:12px;&quot;&gt;&lt;tr&gt;&lt;th style=&quot;border:1px solid #999;padding:6px;background:#f2f2f2;text-align:left;&quot;&gt;&lt;/th&gt;&lt;th style=&quot;border:1px solid #999;padding:6px;background:#f2f2f2;text-align:left;&quot;&gt;Option 1: New pod per run (recommended)&lt;/th&gt;&lt;th style=&quot;border:1px solid #999;padding:6px;background:#f2f2f2;text-align:left;&quot;&gt;Option 2: Shared pod, always on&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;&lt;b&gt;How it works&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;Airflow creates a pod per run; it trains, then is deleted&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;One pod always running; Airflow sends jobs to it&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;&lt;b&gt;Cost&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;Pay only while training (spot GPUs, scale to zero)&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;Pay for the GPU 24/7, even when idle&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;&lt;b&gt;Startup time&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;Minutes (start node, pull image)&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;None (pod already warm)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;&lt;b&gt;Isolation / repeatability&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;Clean image every run&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;Shared state; libraries drift over time&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;&lt;b&gt;Parallel jobs&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;Yes, one pod per job&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;No, jobs queue or compete for GPU&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;&lt;b&gt;Failure impact&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;One job fails; next run starts clean&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;Pod down → all training stops&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;&lt;b&gt;Ops effort&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;Needs Kubernetes skills (autoscaling, quotas)&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;Simple to set up; manual upkeep&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;&lt;b&gt;Choose when&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;Batch / scheduled training (our case: daily)&lt;/td&gt;&lt;td style=&quot;border:1px solid #999;padding:6px;vertical-align:top;&quot;&gt;Near-continuous training, or GPUs already paid for (on-prem)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="260" width="900" x="40" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-cmp-rec" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;" value="&lt;b&gt;Recommendation:&lt;/b&gt; Option 1. Our models retrain daily, so an always-on GPU would sit idle &amp;gt; 90% of the time." vertex="1">
+          <mxGeometry height="30" width="900" x="40" y="370" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Training factory - Option 1 Pod per run" id="tf-opt1">
+    <mxGraphModel dx="1378" dy="664" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1270" pageHeight="880" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tf-opt1-air" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Airflow (Orchestration)" vertex="1">
+          <mxGeometry height="720" width="130" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt1-gke" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Training cluster (GKE)" vertex="1">
+          <mxGeometry height="720" width="130" x="210" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt1-tt" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Two-tower retrieval + Ranking model" vertex="1">
+          <mxGeometry height="720" width="130" x="380" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt1-cdp" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Customer interactions and profiles (CDP)" vertex="1">
+          <mxGeometry height="720" width="130" x="550" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt1-feast" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Feature Store (Feast)" vertex="1">
+          <mxGeometry height="720" width="130" x="720" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt1-ml" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Model registry (MLflow)" vertex="1">
+          <mxGeometry height="720" width="130" x="890" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt1-qd" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Vector DB (Qdrant)" vertex="1">
+          <mxGeometry height="720" width="130" x="1060" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt1-title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=16;" value="&lt;b&gt;Training factory — Option 1: New pod per run (Kubernetes Job, scale to zero)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="900" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt1-m1" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="1. Create training Job (image, GPU request)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="105" y="215" as="sourcePoint" />
+            <mxPoint x="275" y="215" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt1-m2" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;spacingLeft=4;" value="2. Scale GPU node pool 0 → 1 (spot)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="315" y="240" />
+              <mxPoint x="315" y="270" />
+            </Array>
+            <mxPoint x="275" y="240" as="sourcePoint" />
+            <mxPoint x="275" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt1-m3" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;spacingLeft=4;" value="3. Pull image, start pod">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="315" y="285" />
+              <mxPoint x="315" y="315" />
+            </Array>
+            <mxPoint x="275" y="285" as="sourcePoint" />
+            <mxPoint x="275" y="315" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt1-m4" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="4. Run training in new pod">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="275" y="340" as="sourcePoint" />
+            <mxPoint x="445" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt1-m5" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="5. Read interactions">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="445" y="380" as="sourcePoint" />
+            <mxPoint x="615" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt1-m6" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;fontSize=11;" value="6. Interactions">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="615" y="420" as="sourcePoint" />
+            <mxPoint x="445" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt1-m7" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="7. Read user features (RFM / CLV)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="445" y="460" as="sourcePoint" />
+            <mxPoint x="785" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt1-m8" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;fontSize=11;" value="8. User features">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="785" y="500" as="sourcePoint" />
+            <mxPoint x="445" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt1-m9" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;spacingLeft=4;" value="9. Train new version (GPU)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="485" y="525" />
+              <mxPoint x="485" y="555" />
+            </Array>
+            <mxPoint x="445" y="525" as="sourcePoint" />
+            <mxPoint x="445" y="555" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt1-m10" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="10. Register model version">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="445" y="580" as="sourcePoint" />
+            <mxPoint x="955" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt1-m11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="11. Upsert item + user vectors (new version)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="445" y="620" as="sourcePoint" />
+            <mxPoint x="1125" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt1-m12" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;spacingLeft=4;" value="12. Pod exits → delete pod, scale GPU nodes to 0">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="315" y="650" />
+              <mxPoint x="315" y="680" />
+            </Array>
+            <mxPoint x="275" y="650" as="sourcePoint" />
+            <mxPoint x="275" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt1-loop" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=50;height=24;fillColor=none;" value="loop" vertex="1">
+          <mxGeometry height="535" width="1100" x="65" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt1-loopg" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontStyle=2;fontSize=11;" value="[daily schedule]" vertex="1">
+          <mxGeometry height="24" width="260" x="121" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt1-note" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=14;align=left;spacingLeft=6;fontSize=11;" value="Pay only while the job runs. Each run starts from a clean image (repeatable). Several jobs can run in parallel. Cost: a few minutes to start the node and pull the image." vertex="1">
+          <mxGeometry height="50" width="620" x="85" y="730" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Training factory - Option 2 Shared pod" id="tf-opt2">
+    <mxGraphModel dx="1148" dy="553" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1270" pageHeight="945" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tf-opt2-air" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Airflow (Orchestration)" vertex="1">
+          <mxGeometry height="785" width="130" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt2-gke" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Training cluster (GKE)" vertex="1">
+          <mxGeometry height="785" width="130" x="210" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt2-tt" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Two-tower retrieval + Ranking model" vertex="1">
+          <mxGeometry height="785" width="130" x="380" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt2-cdp" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Customer interactions and profiles (CDP)" vertex="1">
+          <mxGeometry height="785" width="130" x="550" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt2-feast" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Feature Store (Feast)" vertex="1">
+          <mxGeometry height="785" width="130" x="720" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt2-ml" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Model registry (MLflow)" vertex="1">
+          <mxGeometry height="785" width="130" x="890" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt2-qd" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=50;" value="Vector DB (Qdrant)" vertex="1">
+          <mxGeometry height="785" width="130" x="1060" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt2-title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=16;" value="&lt;b&gt;Training factory — Option 2: Shared training pod (always on)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="900" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt2-m1" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;spacingLeft=4;" value="0. Shared pod always running (GPU node reserved 24/7)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="315" y="170" />
+              <mxPoint x="315" y="200" />
+            </Array>
+            <mxPoint x="275" y="170" as="sourcePoint" />
+            <mxPoint x="275" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt2-m2" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="1. Submit training job to shared pod">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="105" y="275" as="sourcePoint" />
+            <mxPoint x="275" y="275" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt2-alt" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=50;height=24;fillColor=none;" value="alt" vertex="1">
+          <mxGeometry height="70" width="250" x="235" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt2-altg" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontStyle=2;fontSize=11;" value="[pod busy with another job]" vertex="1">
+          <mxGeometry height="24" width="260" x="291" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt2-m3" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;spacingLeft=4;" value="2. Queue job until pod is free">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="315" y="340" />
+              <mxPoint x="315" y="370" />
+            </Array>
+            <mxPoint x="275" y="340" as="sourcePoint" />
+            <mxPoint x="275" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt2-m4" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="3. Run training in shared pod">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="275" y="395" as="sourcePoint" />
+            <mxPoint x="445" y="395" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt2-m5" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="4. Read interactions">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="445" y="435" as="sourcePoint" />
+            <mxPoint x="615" y="435" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt2-m6" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;fontSize=11;" value="5. Interactions">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="615" y="475" as="sourcePoint" />
+            <mxPoint x="445" y="475" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt2-m7" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="6. Read user features (RFM / CLV)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="445" y="515" as="sourcePoint" />
+            <mxPoint x="785" y="515" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt2-m8" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;fontSize=11;" value="7. User features">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="785" y="555" as="sourcePoint" />
+            <mxPoint x="445" y="555" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt2-m9" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;spacingLeft=4;" value="8. Train new version (GPU)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="485" y="580" />
+              <mxPoint x="485" y="610" />
+            </Array>
+            <mxPoint x="445" y="580" as="sourcePoint" />
+            <mxPoint x="445" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt2-m10" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="9. Register model version">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="445" y="635" as="sourcePoint" />
+            <mxPoint x="955" y="635" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt2-m11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;" value="10. Upsert item + user vectors (new version)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="445" y="675" as="sourcePoint" />
+            <mxPoint x="1125" y="675" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt2-m12" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;rounded=0;fontSize=11;align=left;spacingLeft=4;" value="11. Pod stays up (GPU idle until next job)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="315" y="705" />
+              <mxPoint x="315" y="735" />
+            </Array>
+            <mxPoint x="275" y="705" as="sourcePoint" />
+            <mxPoint x="275" y="735" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tf-opt2-loop" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=50;height=24;fillColor=none;" value="loop" vertex="1">
+          <mxGeometry height="530" width="1100" x="65" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt2-loopg" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontStyle=2;fontSize=11;" value="[daily schedule]" vertex="1">
+          <mxGeometry height="24" width="260" x="121" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="tf-opt2-note" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=14;align=left;spacingLeft=6;fontSize=11;" value="No startup wait, simplest setup. But you pay for the GPU 24/7, jobs compete for the same GPU / memory, the pod's libraries drift between runs, and one pod failure stops all training." vertex="1">
+          <mxGeometry height="60" width="620" x="85" y="785" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  </mxfile>
